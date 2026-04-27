@@ -1,5 +1,5 @@
 // Service Worker — Révise tes Capitales
-const CACHE_NAME = "capitales-v3";
+const CACHE_NAME = "capitales-v4";
 const ASSETS = [
   "./",
   "./index.html",
