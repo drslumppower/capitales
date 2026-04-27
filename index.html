@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Révise tes Capitales ! 🌍</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===== TOOLBAR: NAV + FILTERS ===== -->
+  <div class="toolbar">
+    <nav class="mode-nav">
+      <button class="mode-btn active" data-mode="locate">📍 Localiser</button>
+      <button class="mode-btn" data-mode="quiz">🧠 Quiz</button>
+      <button class="mode-btn" data-mode="qcm">📝 QCM</button>
+      <button class="mode-btn" data-mode="map">🗺️ Carte</button>
+      <button class="mode-btn" data-mode="reverse">🔄 Inversé</button>
+      <button class="mode-btn" data-mode="learn">📖 Apprendre</button>
+    </nav>
+    <div class="filters">
+      <div class="filter-group">
+        <label for="level-filter">📊</label>
+        <select id="level-filter">
+          <option value="1">Niveau 1 — Les bases (max 13/20)</option>
+          <option value="2">Niveau 2 — Intermédiaire (max 16/20)</option>
+          <option value="3" selected>Niveau 3 — Complet (max 20/20)</option>
+          <option value="programme">Programme complet</option>
+          <option value="all">Tous les pays du monde</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>🌍</label>
+        <div class="multi-select" id="continent-filter">
+          <button class="multi-select-btn" id="continent-btn">Tous ▾</button>
+          <div class="multi-select-dropdown hidden" id="continent-dropdown">
+            <label class="ms-option"><input type="checkbox" value="Europe" checked> Europe</label>
+            <label class="ms-option"><input type="checkbox" value="Afrique" checked> Afrique</label>
+            <label class="ms-option"><input type="checkbox" value="Asie" checked> Asie</label>
+            <label class="ms-option"><input type="checkbox" value="Amérique" checked> Amérique</label>
+            <label class="ms-option"><input type="checkbox" value="Océanie" checked> Océanie</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ZONE PRINCIPALE ===== -->
+  <div id="game-wrapper">
+    <main id="game-area">
+    <!-- MODE LOCALISER -->
+    <section id="mode-locate" class="game-mode active">
+      <div class="question-card">
+        <div id="locate-start-screen" class="start-screen">
+          <button id="locate-start-btn" class="btn-start">▶ Démarrer</button>
+        </div>
+        <div id="locate-game" class="hidden">
+          <div class="session-bar">
+            <span class="session-progress-text"></span>
+            <div class="locate-center-group">
+              <h2 class="question-country" id="locate-country" style="margin:0;font-size:1.3rem">—</h2>
+              <button id="locate-next" class="btn-secondary hidden">Pays suivant →</button>
+            </div>
+            <button class="btn-history" title="Historique">📋 Historique</button>
+          </div>
+          <div id="locate-map-container"></div>
+          <div id="locate-feedback" class="feedback"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODE QUIZ : saisie libre -->
+    <section id="mode-quiz" class="game-mode">
+      <div class="question-card">
+        <div class="session-bar">
+          <span class="session-progress-text"></span>
+          <button class="btn-history" title="Historique">📋 Historique</button>
+        </div>
+        <p class="question-label">Quelle est la capitale de…</p>
+        <h2 class="question-country" id="quiz-country">—</h2>
+        <div class="answer-row">
+          <input type="text" id="quiz-input" placeholder="Tape la capitale…" autocomplete="off" />
+          <button id="quiz-submit" class="btn-primary">Valider</button>
+        </div>
+        <div id="quiz-feedback" class="feedback"></div>
+        <button id="quiz-next" class="btn-secondary hidden">Question suivante →</button>
+      </div>
+    </section>
+
+    <!-- MODE QCM -->
+    <section id="mode-qcm" class="game-mode">
+      <div class="question-card">
+        <div class="session-bar">
+          <span class="session-progress-text"></span>
+          <button class="btn-history" title="Historique">📋 Historique</button>
+        </div>
+        <p class="question-label">Quelle est la capitale de…</p>
+        <h2 class="question-country" id="qcm-country">—</h2>
+        <div id="qcm-options" class="qcm-grid"></div>
+        <div id="qcm-feedback" class="feedback"></div>
+        <button id="qcm-next" class="btn-secondary hidden">Question suivante →</button>
+      </div>
+    </section>
+
+    <!-- MODE CARTE -->
+    <section id="mode-map" class="game-mode">
+      <div class="question-card">
+        <div class="session-bar">
+          <span class="session-progress-text"></span>
+          <button class="btn-history" title="Historique">📋 Historique</button>
+        </div>
+        <p class="question-label">Place la capitale sur la carte…</p>
+        <h2 class="question-country" id="map-country">—</h2>
+        <div id="map-container"></div>
+        <div id="map-feedback" class="feedback"></div>
+        <button id="map-next" class="btn-secondary hidden">Question suivante →</button>
+      </div>
+    </section>
+
+    <!-- MODE INVERSÉ -->
+    <section id="mode-reverse" class="game-mode">
+      <div class="question-card">
+        <div class="session-bar">
+          <span class="session-progress-text"></span>
+          <button class="btn-history" title="Historique">📋 Historique</button>
+        </div>
+        <p class="question-label">De quel pays cette ville est-elle la capitale ?</p>
+        <h2 class="question-country" id="reverse-capital">—</h2>
+        <div class="answer-row">
+          <input type="text" id="reverse-input" placeholder="Tape le pays…" autocomplete="off" />
+          <button id="reverse-submit" class="btn-primary">Valider</button>
+        </div>
+        <div id="reverse-feedback" class="feedback"></div>
+        <button id="reverse-next" class="btn-secondary hidden">Question suivante →</button>
+      </div>
+    </section>
+
+    <!-- MODE APPRENDRE -->
+    <section id="mode-learn" class="game-mode">
+      <div class="learn-controls">
+        <input type="text" id="learn-search" placeholder="🔍 Rechercher un pays ou une capitale…" />
+      </div>
+      <div id="learn-map-container"></div>
+      <div id="learn-table-container">
+        <table id="learn-table">
+          <thead>
+            <tr>
+              <th data-sort="country">Pays ▲</th>
+              <th data-sort="capital">Capitale</th>
+              <th data-sort="continent">Continent</th>
+              <th data-sort="level">Niveau</th>
+            </tr>
+          </thead>
+          <tbody id="learn-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+    <!-- Panel réponses en cours -->
+    <aside id="session-panel" class="session-panel">
+      <div class="panel-stats">
+        <div class="score-display">
+          <span id="score-correct">0</span>/<span id="score-total">0</span>
+          <span id="score-percent"></span>
+        </div>
+        <div class="count-display" id="count-display">0 pays</div>
+      </div>
+      <h4>📝 Réponses</h4>
+      <ul id="session-results-list"></ul>
+    </aside>
+  </div>
+
+  <!-- Historique modal (partagé) -->
+  <div id="history-overlay" class="history-overlay hidden">
+    <div class="history-panel">
+      <div class="history-header">
+        <h3>📋 Historique des sessions</h3>
+        <button id="history-close" class="btn-close">✕</button>
+      </div>
+      <div id="history-content"></div>
+      <button id="history-clear" class="btn-danger btn-small">Effacer l'historique</button>
+    </div>
+  </div>
+
+  <!-- ===== BARRE DE PROGRESSION ===== -->
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progress-bar"></div>
+    <span class="progress-label" id="progress-label">0 %</span>
+  </div>
+
+  <footer>
+    <button id="reset-btn" class="btn-danger">🔄 Recommencer</button>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js");
+    }
+  </script>
+</body>
+</html>
