@@ -146,11 +146,11 @@
   function updateContinentLabel() {
     const sel = getSelectedContinents();
     if (sel.length === 0 || sel.length === ALL_CONTINENTS.length) {
-      continentBtn.textContent = "Tous ▾";
+      continentBtn.textContent = "🌍 Tous ▾";
     } else if (sel.length <= 2) {
-      continentBtn.textContent = sel.join(" + ") + " ▾";
+      continentBtn.textContent = "🌍 " + sel.join(" + ") + " ▾";
     } else {
-      continentBtn.textContent = sel.length + " continents ▾";
+      continentBtn.textContent = "🌍 " + sel.length + " continents ▾";
     }
   }
 
