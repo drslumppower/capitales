@@ -43,7 +43,7 @@
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
 
-  const modeButtons = $$(".mode-btn");
+  const modeSelect = $("#mode-select");
   const continentFilter = $("#continent-filter");
   const continentBtn = $("#continent-btn");
   const continentDropdown = $("#continent-dropdown");
@@ -191,7 +191,7 @@
     sessionSaved = false;
     renderSessionPanel();
     currentMode = mode;
-    modeButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.mode === mode));
+    modeSelect.value = mode;
     $$(".game-mode").forEach((sec) => sec.classList.remove("active"));
     $(`#mode-${mode}`).classList.add("active");
     startCurrentMode();
@@ -941,9 +941,7 @@
   // =====================
   //  Event listeners
   // =====================
-  modeButtons.forEach((btn) => {
-    btn.addEventListener("click", () => switchMode(btn.dataset.mode));
-  });
+  modeSelect.addEventListener("change", () => switchMode(modeSelect.value));
 
   // Continent multi-select toggle
   continentBtn.addEventListener("click", (e) => {

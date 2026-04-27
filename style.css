@@ -55,26 +55,19 @@ body {
 /* ===== NAV ===== */
 .mode-nav {
   display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+  align-items: center;
 }
-.mode-btn {
-  padding: 10px 18px;
+#mode-select {
+  padding: 8px 12px;
+  border-radius: 8px;
   border: 2px solid var(--border);
-  border-radius: 999px;
-  background: var(--card-bg);
-  cursor: pointer;
   font-size: .9rem;
   font-weight: 600;
+  background: white;
   color: var(--text);
-  transition: all .2s;
+  cursor: pointer;
 }
-.mode-btn:hover { border-color: var(--primary-light); color: var(--primary); }
-.mode-btn.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
+#mode-select:focus { border-color: var(--primary); outline: none; }
 
 /* ===== FILTERS ===== */
 .filters {
@@ -567,7 +560,7 @@ footer {
   .subtitle { font-size: .75rem; }
   .question-country { font-size: 1.5rem; }
   .qcm-grid { grid-template-columns: 1fr; }
-  .mode-btn { padding: 7px 10px; font-size: .75rem; }
+  #mode-select { font-size: .8rem; padding: 6px 10px; }
   .toolbar { padding: 6px calc(8px + var(--sal)); gap: 8px; }
   .filters label { font-size: .8rem; }
   .filters select, .multi-select-btn { font-size: .8rem; padding: 6px 10px; }

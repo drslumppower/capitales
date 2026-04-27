@@ -16,12 +16,14 @@
   <!-- ===== TOOLBAR: NAV + FILTERS ===== -->
   <div class="toolbar">
     <nav class="mode-nav">
-      <button class="mode-btn active" data-mode="locate">📍 Localiser</button>
-      <button class="mode-btn" data-mode="quiz">🧠 Quiz</button>
-      <button class="mode-btn" data-mode="qcm">📝 QCM</button>
-      <button class="mode-btn" data-mode="map">🗺️ Carte</button>
-      <button class="mode-btn" data-mode="reverse">🔄 Inversé</button>
-      <button class="mode-btn" data-mode="learn">📖 Apprendre</button>
+      <select id="mode-select">
+        <option value="locate">📍 Localiser</option>
+        <option value="quiz">🧠 Quiz</option>
+        <option value="qcm">📝 QCM</option>
+        <option value="map">🗺️ Carte</option>
+        <option value="reverse">🔄 Inversé</option>
+        <option value="learn">📖 Apprendre</option>
+      </select>
     </nav>
     <div class="filters">
       <div class="filter-group">
