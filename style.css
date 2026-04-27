@@ -45,7 +45,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px calc(12px + var(--sar)) 8px calc(12px + var(--sal));
+  padding: calc(8px + var(--sat)) calc(12px + var(--sar)) 8px calc(12px + var(--sal));
   gap: 12px;
   flex-wrap: wrap;
   background: var(--card-bg);
