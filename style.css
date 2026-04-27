@@ -15,6 +15,10 @@
   --radius: 12px;
   --shadow: 0 4px 6px -1px rgb(0 0 0 / .07), 0 2px 4px -2px rgb(0 0 0 / .05);
   --shadow-lg: 0 10px 25px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .05);
+  --sat: env(safe-area-inset-top);
+  --sar: env(safe-area-inset-right);
+  --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left);
 }
 
 body {
@@ -30,7 +34,7 @@ body {
   background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
   color: white;
   text-align: center;
-  padding: 14px 16px 10px;
+  padding: calc(14px + var(--sat)) calc(16px + var(--sar)) 10px calc(16px + var(--sal));
   box-shadow: var(--shadow-lg);
 }
 .app-header h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -.02em; }
@@ -41,7 +45,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 8px calc(12px + var(--sar)) 8px calc(12px + var(--sal));
   gap: 12px;
   flex-wrap: wrap;
   background: var(--card-bg);
@@ -559,10 +563,15 @@ footer {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
-  .app-header h1 { font-size: 1.4rem; }
+  .app-header h1 { font-size: 1.3rem; }
+  .subtitle { font-size: .75rem; }
   .question-country { font-size: 1.5rem; }
   .qcm-grid { grid-template-columns: 1fr; }
-  .mode-btn { padding: 8px 12px; font-size: .8rem; }
-  #map-container, #learn-map-container, #locate-map-container { height: calc(100vh - 280px); }
+  .mode-btn { padding: 7px 10px; font-size: .75rem; }
+  .toolbar { padding: 6px calc(8px + var(--sal)); gap: 8px; }
+  .filters label { font-size: .8rem; }
+  .filters select, .multi-select-btn { font-size: .8rem; padding: 6px 10px; }
+  #map-container, #learn-map-container, #locate-map-container { height: calc(100vh - 260px - var(--sat) - var(--sab)); }
   .session-detail-cell ul { columns: 1; }
+  body { padding-bottom: var(--sab); }
 }
